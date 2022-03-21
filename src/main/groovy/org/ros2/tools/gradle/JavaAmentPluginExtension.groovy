@@ -54,9 +54,10 @@ class JavaAmentPluginExtension extends BaseAmentPluginExtension {
   }
 
   def updateJavaDependencies() {
+    def excludeJars = ['commons-lang3-3.7.jar', 'log4j-1.2.17.jar', 'slf4j-api-1.7.21.jar','slf4j-jdk14-1.7.21.jar','slf4j-log4j12-1.7.21.jar','junit-4.12.jar','hamcrest-all-1.3.jar']
     def compileDeps = project.getConfigurations().getByName('implementation').getDependencies()
     def fileDeps = project.files(project.ament.dependencies.split(':').collect {
-      project.fileTree(dir: [it, 'java'].join(File.separator), include: '*.jar')
+      project.fileTree(dir: [it, 'java'].join(File.separator), include: '*.jar', exclude: excludeJars)
     })
     compileDeps.add(project.getDependencies().create(fileDeps))
   }
